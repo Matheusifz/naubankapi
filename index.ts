@@ -1,4 +1,4 @@
-const http = require("http");
+import http from "http";
 import app from "./app";
 const server = http.createServer(app);
 
