@@ -1,13 +1,18 @@
 require("dotenv").config();
 require("./config/database").connect();
-import User from "./model/user";
+
 import express from "express";
+import cors from "cors";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+import User from "./model/user";
+import verifyToken from "./middleware/auth";
+
 const app = express();
 
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
+app.use(cors());
 
 app.post("/signup", async (req, res) => {
   try {
@@ -65,5 +70,10 @@ app.post("/signin", async (req, res) => {
 
   return res.status(400).send("Invalid Credentials");
 });
+
+app.get("/welcome", verifyToken, (req: any, res: any) => {
+  res.status(200).send("Welcome Dear One");
+});
+
 
 export default app;
