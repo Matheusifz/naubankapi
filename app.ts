@@ -22,10 +22,10 @@ app.post("/signup", async (req, res) => {
     }
     const oldUser = await User.findOne({ email });
     if (oldUser) {
-      return res.send("User Already Exist. Please Log in");
+      return res.send("Email is already in use. Please Log In");
     }
 
-    const encryptedUserPassword = await bcrypt.hash(password, 10);
+    const encryptedUserPassword = await bcrypt.hash(password, 8);
     const user = await User.create({
       username: username,
       email: email.toLowerCase(),
@@ -74,6 +74,5 @@ app.post("/signin", async (req, res) => {
 app.get("/welcome", verifyToken, (req: any, res: any) => {
   res.status(200).send("Welcome Dear One");
 });
-
 
 export default app;
