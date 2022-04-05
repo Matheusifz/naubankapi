@@ -16,13 +16,14 @@ app.use(cors());
 
 app.post("/signup", async (req, res) => {
   try {
+    console.log("oi");
     const { username, email, password } = req.body;
     if (!(email || password || username)) {
-      return res.status(400).send("All input are required");
+      return res.status(400).json({ message: "All input are required" });
     }
     const oldUser = await User.findOne({ email });
     if (oldUser) {
-      return res.send("Email is already in use. Please Log In");
+      return res.json({ message: "Email is already in use. Please Log In" });
     }
 
     const encryptedUserPassword = await bcrypt.hash(password, 8);
