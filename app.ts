@@ -23,7 +23,7 @@ app.post("/signup", async (req, res) => {
     }
     const oldUser = await User.findOne({ email });
     if (oldUser) {
-      return res.json({ message: "Email is already in use. Please Log In" });
+      return res.status(401).json({ message: "Email is already in use. Please Log In" });
     }
 
     const encryptedUserPassword = await bcrypt.hash(password, 8);
